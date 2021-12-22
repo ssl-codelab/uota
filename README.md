@@ -1,7 +1,18 @@
 # UOTA: Improving Self-supervised Learning with Automated Unsupervised Outlier Arbitration
 This repository is the official [PyTorch](http://pytorch.org) implementation of **UOTA** (**U**nsupervised **O**u**T**lier **A**rbitration).
 
-## 0 Requirements
+## 1 Citation
+Yu Wang, Jingyang Lin, Jingjing Zou, Yingwei Pan, Ting Yao, Tao Mei. *UOTA: Improving Self-supervised Learning with Automated Unsupervised Outlier Arbitration*. In *NeurIPS*, 2021.
+```
+@InProceedings{wang2021NeurIPS,
+  title={Improving Self-supervised Learning with Automated Unsupervised Outlier Arbitration},
+  author={Wang, Yu and Lin, Jingyang and Zou, Jingjing and Pan, Yingwei and Yao, Ting and Mei, Tao},
+  booktitle={NeurIPS},
+  year={2021},
+}
+```
+
+## 2 Requirements
 - Python 3.6
 - [PyTorch](http://pytorch.org) install = 1.6.0
 - torchvision install = 0.7.0
@@ -9,10 +20,10 @@ This repository is the official [PyTorch](http://pytorch.org) implementation of 
 - [Apex](https://github.com/NVIDIA/apex) with CUDA extension
 - Other dependencies: opencv-python, scipy, pandas, numpy
 
-## 1 Pretraining
-We release a demo to pretrain ResNet50 on ImageNet1K with SwAV+UOTA pretrained models.
+## 3 Pretraining
+We release a demo for the SwAV+UOTA self-supervised learning approach. The model is based on ResNet50 architecture, pretrained for 200 epochs.
 
-### 1.1 SwAV+UOTA pretrain
+### 3.1 SwAV+UOTA pretrain
 
 To train SwAV+UOTA on a single node with 4 gpus for 200 epochs, run:
 ```
@@ -42,7 +53,7 @@ python -m torch.distributed.launch --nproc_per_node=4 main_uota.py \
 --dump_path ${EXPERIMENT_PATH}
 ```
 
-## 2 Linear Evaluation
+## 4 Linear Evaluation
 To train a linear classifier on frozen features out of deep network pretrained via various self-supervised pretraining methods, run:
 ```
 DATASET_PATH="path/to/ImageNet1K"
@@ -59,20 +70,10 @@ python -m torch.distributed.launch --nproc_per_node=4 eval_linear.py \
 --num_classes 100 \
 ```
 
-## 3 Results
+## 5 Results
 To compare with SwAV fairly, we provide a SwAV+UOTA model with ResNet-50 architecture pretrained on ImageNet1K for 200 epochs, and release the pretrained model and the linear classier.
 
 | method | epochs | batch-size | multi-crop | ImageNet1K top-1 acc. | pretrained model | linear classifier |
 |-------------------|-------------------|---------------------|--------------------|--------------------|--------------------|--------------------|
 | SwAV | 200 | 256 | 2x224 + 6x96 | 72.7 | / | / |
 | SwAV + UOTA | 200 | 256 | 2x224 + 6x96 | 73.5 | [pretrained](https://github.com/ssl-codelab/uota/releases/download/v1.0.0/swav_uota_r50_e200_pretrained.pth.tar) | [linear](https://github.com/ssl-codelab/uota/releases/download/v1.0.0/swav_uota_r50_e200_lincls.pth.tar) |
-
-## 4 Citation
-```
-@InProceedings{wang2021NeurIPS,
-  title={Improving Self-supervised Learning with Automated Unsupervised Outlier Arbitration},
-  author={Wang, Yu and Lin, Jingyang and Zou, Jingjing and Pan, Yingwei and Yao, Ting and Mei, Tao},
-  booktitle={NeurIPS},
-  year={2021},
-}
-```
